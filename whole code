@@ -1,0 +1,100 @@
+from time import sleep
+
+name_1 = "John"
+name_2 = "Jack"
+display_name_2 = name_2 + " " + "\U0001F916"
+print("Welcome to the pencil" + " " + "\u270F" + " " + "game!")
+print()
+sleep(1.5)
+print(f"You and the AI, {display_name_2}, take turns removing 1, 2 or 3 pencils")
+print()
+sleep(1.5)
+print("The player that sets the pencil count to 0 loses")
+print()
+sleep(1.5)
+print("Good luck and have fun!")
+print()
+sleep(1.5)
+print("How many pencils would you like to use:")
+while True:
+    start_number = input(" ")
+    if not start_number.isnumeric():
+        print("The number of pencils should be numeric")
+    elif int(start_number) == 0:
+        print("The number of pencils should be positive")
+    else:
+        start_number = int(start_number)
+        break
+
+print(f"Who will be the first ({name_1}, {display_name_2})?")
+
+while True:
+    choice = input(" ")
+    if choice == name_1 or choice == name_2:
+        break
+    else:
+        print(f"Choose between {name_1} and {name_2}")
+print("\u270F " * start_number)
+counter = 0
+
+legal_answers = [1, 2, 3, "1", "2", "3"]
+
+if choice == name_2:
+    counter = 1
+
+while start_number > 0:
+    if counter % 2 == 0:
+        print(f"{name_1}'s turn:")
+
+        while True:
+            remove = input(" ")
+            if remove not in legal_answers:
+                print("Possible values: '1', '2' or '3'")
+                continue
+            remove = int(remove)
+            if remove > start_number:
+                print("Too many pencils were taken")
+                continue
+            break
+        start_number -= remove
+        if start_number != 0:
+            print("\u270F " * start_number)
+        if start_number == 0:
+            break
+        counter += 1
+    else:
+        print(f"{display_name_2}'s turn:")
+
+        checker = 1
+
+        losing_numbers = []
+        winning_numbers = []
+
+        for i in range(start_number + 1):
+            if checker == i:
+                losing_numbers.append(i)
+                checker += 4
+            else:
+                if i != 0:
+                    winning_numbers.append(i)
+        if start_number in losing_numbers:
+            remove = 1
+
+        elif start_number - 1 in losing_numbers:
+            remove = 1
+        elif start_number - 2 in losing_numbers:
+            remove = 2
+        elif start_number - 3 in losing_numbers:
+            remove = 3
+        start_number -= remove
+        print(remove)
+        if start_number != 0:
+            print("\u270F " * start_number)
+        if start_number == 0:
+            break
+        counter += 1
+
+if counter % 2 == 0:
+    print(f"{display_name_2} won!")
+else:
+    print(f"{name_1} won!")
